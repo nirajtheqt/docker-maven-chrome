@@ -13,9 +13,9 @@ RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd6
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
     && sed -i 's|"$HERE/chrome"|"${HERE}/chrome" --no-sandbox|g' /opt/google/chrome/google-chrome
 
-# Add ChromeDriver
-ARG CHROMEDRIVER_VERSION=latest
-RUN if [ "$CHROMEDRIVER_VERSION" = "latest" ]; then CHROMEDRIVER_VERSION=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE); fi \
+# Add ChromeDriver dynamically to match the installed Chrome version
+RUN CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+\.\d+') \
+    && CHROMEDRIVER_VERSION=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION) \
     && wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" \
     && unzip chromedriver_linux64.zip \
     && rm chromedriver_linux64.zip \
