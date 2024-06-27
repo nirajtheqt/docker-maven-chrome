@@ -1,6 +1,6 @@
 FROM maven:3.9.6-eclipse-temurin-21
 ENV CHROME_VERSION=126.0.6478.126
-# ENV CHROMEDRIVER_VERSION=126.0.6478.126
+# ENV CHROMEDRIVER_VERSION=126.0.6478.1261
 
 # Install dependencies
 RUN apt-get update -qqy \
