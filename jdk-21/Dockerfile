@@ -17,11 +17,10 @@ RUN wget -q "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_V
     && ln -s /opt/google/chrome/chrome/chrome /usr/bin/google-chrome
 
 # Download and install ChromeDriver
-RUN wget -q "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip" \
-    && unzip chromedriver_linux64.zip \
-    && mv chromedriver /usr/local/bin/chromedriver \
-    && rm chromedriver_linux64.zip \
-    && chmod +x /usr/local/bin/chromedriver
+RUN wget -q -O /tmp/chromedriver.zip https://storage.googleapis.com/chrome-for-testing-public/$CHROME_DRIVER_VERSION/linux64/chromedriver-linux64.zip \
+	&& unzip /tmp/chromedriver.zip -d /opt \
+	&& rm /tmp/chromedriver.zip \
+	&& ln -s /opt/chromedriver-linux64/chromedriver /usr/bin/chromedriver
 # Verify installations
 RUN google-chrome --version \
     && chromedriver --version
