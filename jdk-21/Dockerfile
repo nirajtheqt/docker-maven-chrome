@@ -1,5 +1,4 @@
 FROM maven:3.9.6-eclipse-temurin-21
-# Set the Chrome and ChromeDriver versions
 ENV CHROME_VERSION=126.0.6478.126
 ENV CHROMEDRIVER_VERSION=126.0.6478.126
 
@@ -13,12 +12,22 @@ RUN mkdir -p /opt/google/chrome
 # Download and install Chrome
 RUN wget -q "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip" \
     && unzip chrome-linux64.zip -d /opt/google/chrome \
-    && rm chrome-linux64.zip \
-    && ln -s /opt/google/chrome/chrome/chrome /usr/bin/google-chrome
+    && rm chrome-linux64.zip
+
+# Set up symbolic link for Chrome binary
+RUN ln -s /opt/google/chrome/chrome /usr/bin/google-chrome
 
 # Download and install ChromeDriver
-RUN wget -q -O /tmp/chromedriver.zip https://storage.googleapis.com/chrome-for-testing-public/${CHROMEDRIVER_VERSION}/linux64/chromedriver-linux64.zip \
-	&& unzip /tmp/chromedriver.zip -d /opt \
-	&& rm /tmp/chromedriver.zip \
-	&& ln -s /opt/chromedriver-linux64/chromedriver /usr/bin/chromedriver
+RUN wget -q "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip" \
+    && unzip chromedriver_linux64.zip \
+    && mv chromedriver /usr/local/bin/chromedriver \
+    && rm chromedriver_linux64.zip \
+    && chmod +x /usr/local/bin/chromedriver
+
+# Set display port to avoid crash
+# ENV DISPLAY=:99
+
+# Verify installations
+RUN google-chrome --version \
+    && chromedriver --version
 
