@@ -8,14 +8,14 @@ RUN apt-get update -qqy \
     && apt-get -qqy install gnupg2 wget unzip
 
 # Download and install Chrome
-RUN wget -q https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip \
+RUN wget -q "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip" \
     && unzip chrome-linux64.zip \
     && mv chrome-linux64 /opt/google/chrome \
     && rm chrome-linux64.zip \
     && ln -s /opt/google/chrome/chrome /usr/bin/google-chrome
 
 # Download and install ChromeDriver
-RUN wget -q https://storage.googleapis.com/chrome-for-testing-public/${CHROMEDRIVER_VERSION}/linux64/chromedriver-linux64.zip \
+RUN wget -q "https://storage.googleapis.com/chrome-for-testing-public/${CHROMEDRIVER_VERSION}/linux64/chromedriver-linux64.zip" \
     && unzip chromedriver-linux64.zip \
     && mv chromedriver /usr/local/bin/chromedriver \
     && rm chromedriver-linux64.zip \
