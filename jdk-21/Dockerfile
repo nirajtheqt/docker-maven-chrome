@@ -18,10 +18,10 @@ RUN wget -q "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_V
 RUN ln -s /opt/google/chrome/chrome /usr/bin/google-chrome
 
 # Download and install ChromeDriver
-RUN wget -q -O chromedriver_linux64.zip https://storage.googleapis.com/chrome-for-testing-public/126.0.6478.126/linux64/chromedriver_linux64.zip \
-    && unzip chromedriver_linux64.zip \
+RUN wget -q https://storage.googleapis.com/chrome-for-testing-public/126.0.6478.126/linux64/chromedriver-linux64.zip \
+    && unzip chromedriver-linux64.zip \
     && mv chromedriver /usr/local/bin/chromedriver \
-    && rm chromedriver_linux64.zip \
+    && rm chromedriver-linux64.zip \
     && chmod +x /usr/local/bin/chromedriver
 
 # Set display port to avoid crash
