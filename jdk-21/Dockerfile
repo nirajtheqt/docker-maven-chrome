@@ -1,6 +1,6 @@
 FROM maven:3.9.6-eclipse-temurin-21
 ENV CHROME_VERSION=126.0.6478.126
-ENV CHROMEDRIVER_VERSION=126.0.6478.126
+# ENV CHROMEDRIVER_VERSION=126.0.6478.126
 
 # Install dependencies
 RUN apt-get update -qqy \
@@ -18,7 +18,7 @@ RUN wget -q "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_V
 RUN ln -s /opt/google/chrome/chrome /usr/bin/google-chrome
 
 # Download and install ChromeDriver
-RUN wget -q "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip" \
+RUN wget -q "https://chromedriver.storage.googleapis.com/126.0.6478.126/chromedriver_linux64.zip" \
     && unzip chromedriver_linux64.zip \
     && mv chromedriver /usr/local/bin/chromedriver \
     && rm chromedriver_linux64.zip \
