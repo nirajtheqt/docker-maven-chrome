@@ -20,7 +20,7 @@ RUN ln -s /opt/google/chrome/chrome /usr/bin/google-chrome
 # Download and install ChromeDriver
 RUN wget -q https://storage.googleapis.com/chrome-for-testing-public/126.0.6478.126/linux64/chromedriver-linux64.zip \
     && unzip chromedriver-linux64.zip \
-    && mv chromedriver /usr/local/bin/chromedriver \
+    && mv /opt/google/chrome/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver \
     && rm chromedriver-linux64.zip \
     && chmod +x /usr/local/bin/chromedriver
 
