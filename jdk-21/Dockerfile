@@ -1,32 +1,19 @@
-FROM maven:3.9.6-eclipse-temurin-21
-ENV CHROME_VERSION=126.0.6478.126
-# ENV CHROMEDRIVER_VERSION=126.0.6478.1261
+FROM maven:3.9.6-eclipse-temurin-17
 
-# Install dependencies
+# Google Chrome
+ARG CHROME_VERSION=126.0.6478.126
 RUN apt-get update -qqy \
-    && apt-get -qqy install gnupg2 wget unzip
+	&& apt-get -qqy install gpg unzip \
+	&& wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+	&& echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
+	&& apt-get update -qqy \
+	&& apt-get -qqy install google-chrome-stable=$CHROME_VERSION \
+	&& rm /etc/apt/sources.list.d/google-chrome.list \
+	&& rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+	&& sed -i 's/"$HERE\/chrome"/"$HERE\/chrome" --no-sandbox/g' /opt/google/chrome/google-chrome
 
-# Create directory for Chrome installation
-RUN mkdir -p /opt/google/chrome
-
-# Download and install Chrome
-RUN wget -q "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip" \
-    && unzip chrome-linux64.zip -d /opt/google/chrome \
-    && rm chrome-linux64.zip
-
-# Set up symbolic link for Chrome binary
-RUN ln -s /opt/google/chrome/chrome /usr/bin/google-chrome
-
-# Download and install ChromeDriver
-RUN wget -q https://storage.googleapis.com/chrome-for-testing-public/126.0.6478.126/linux64/chromedriver-linux64.zip \
-    && unzip chromedriver-linux64.zip \
-    && mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver \
-    && rm chromedriver-linux64.zip \
-    && chmod +x /usr/local/bin/chromedriver
-# Set display port to avoid crash
-# ENV DISPLAY=:99
-
-# Verify installations
-RUN google-chrome --version \
-    && chromedriver --version
-
+# ChromeDriver
+RUN wget -q -O /tmp/chromedriver.zip https://storage.googleapis.com/chrome-for-testing-public/126.0.6478.126/linux64/chromedriver-linux64.zip \
+	&& unzip /tmp/chromedriver.zip -d /opt \
+	&& rm /tmp/chromedriver.zip \
+	&& ln -s /opt/chromedriver-linux64/chromedriver /usr/bin/chromedriver
