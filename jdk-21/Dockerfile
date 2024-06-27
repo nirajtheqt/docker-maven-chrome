@@ -21,6 +21,4 @@ RUN wget -q -O /tmp/chromedriver.zip https://storage.googleapis.com/chrome-for-t
 	&& unzip /tmp/chromedriver.zip -d /opt \
 	&& rm /tmp/chromedriver.zip \
 	&& ln -s /opt/chromedriver-linux64/chromedriver /usr/bin/chromedriver
-# Verify installations
-RUN google-chrome --version \
-    && chromedriver --version
+
