@@ -14,7 +14,7 @@ RUN mkdir -p /opt/google/chrome
 RUN wget -q "https://storage.googleapis.com/chrome-for-testing-public/$CHROME_VERSION/linux64/chrome-linux64.zip" \
     && unzip chrome-linux64.zip -d /opt/google/chrome \
     && rm chrome-linux64.zip \
-    && ln -s /opt/google/chrome/chrome/chrome /usr/bin/google-chrome
+    && ln -s /opt/google/chrome/chrome/chrome /usr/bin/google-chrome \
     && google-chrome --version
 
 
@@ -23,5 +23,5 @@ RUN wget -q "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}
     && unzip chromedriver_linux64.zip \
     && mv chromedriver /usr/local/bin/chromedriver \
     && rm chromedriver_linux64.zip \
-    && chmod +x /usr/local/bin/chromedriver
+    && chmod +x /usr/local/bin/chromedriver \
     && chromedriver --version
