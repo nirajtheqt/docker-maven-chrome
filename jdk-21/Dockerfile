@@ -12,16 +12,16 @@ RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd6
     && sed -i 's|"$HERE/chrome"|"${HERE}/chrome" --no-sandbox|g' /opt/google/chrome/google-chrome
 
 # Add ChromeDriver
-ARG CHROMEDRIVER_VERSION=latest
-RUN if [ "$CHROMEDRIVER_VERSION" = "latest" ]; then CHROMEDRIVER_VERSION=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE); fi \
-    && wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" \
+# Download and install ChromeDriver
+ENV CHROMEDRIVER_VERSION=126.0.6478.126
+RUN wget -q "https://storage.googleapis.com/chrome-for-testing-public/${CHROMEDRIVER_VERSION}/linux64/chromedriver-linux64.zip" \
     && unzip chromedriver_linux64.zip \
-    && rm chromedriver_linux64.zip \
     && mv chromedriver /usr/local/bin/chromedriver \
+    && rm chromedriver_linux64.zip \
     && chmod +x /usr/local/bin/chromedriver
 
 # Set display port to avoid crash
-ENV DISPLAY=:99
+# ENV DISPLAY=:99
 
 # Verify installations
 RUN google-chrome --version \
