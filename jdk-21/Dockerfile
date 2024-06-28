@@ -5,7 +5,9 @@ ENV CHROMEDRIVER_VERSION=126.0.6478.126
 
 # Install dependencies
 RUN apt-get update -qqy \
-    && apt-get -qqy install gnupg2 wget unzip xvfb
+    && apt-get -qqy install gnupg2 wget unzip xvfb \
+    # Install additional dependencies required by Chrome
+    && apt-get -qqy install libgconf-2-4 libnss3 libxss1 libasound2 libatk-bridge2.0-0 libgtk-3-0
 
 # Create directory for Chrome installation
 RUN mkdir -p /opt/google/chrome
