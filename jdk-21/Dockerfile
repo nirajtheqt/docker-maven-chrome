@@ -14,7 +14,7 @@ RUN mkdir -p /opt/google/chrome
 RUN wget -q "https://storage.googleapis.com/chrome-for-testing-public/$CHROME_VERSION/linux64/chrome-linux64.zip" \
     && unzip chrome-linux64.zip -d /opt/google/chrome \
     && rm chrome-linux64.zip \
-    && ln -s /opt/google/chrome/chrome/chrome /usr/bin/google-chrome \
+    && ln -s /opt/google/chrome/chrome-linux64/chrome /usr/bin/google-chrome \
     && google-chrome --version
 
 
