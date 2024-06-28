@@ -1,19 +1,27 @@
-FROM maven:3.9.6-eclipse-temurin-17
+FROM maven:eclipse-temurin
 
-# Google Chrome
-ARG CHROME_VERSION=126.0.6478.126
+ENV CHROME_VERSION=126.0.6478.126
+ENV CHROMEDRIVER_VERSION=126.0.6478.126
+
+# Install dependencies
 RUN apt-get update -qqy \
-	&& apt-get -qqy install gpg unzip \
-	&& wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-	&& echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
-	&& apt-get update -qqy \
-	&& apt-get -qqy install google-chrome-stable=$CHROME_VERSION \
-	&& rm /etc/apt/sources.list.d/google-chrome.list \
-	&& rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
-	&& sed -i 's/"$HERE\/chrome"/"$HERE\/chrome" --no-sandbox/g' /opt/google/chrome/google-chrome
+    && apt-get -qqy install gnupg2 wget unzip
 
-# ChromeDriver
-RUN wget -q -O /tmp/chromedriver.zip https://storage.googleapis.com/chrome-for-testing-public/126.0.6478.126/linux64/chromedriver-linux64.zip \
-	&& unzip /tmp/chromedriver.zip -d /opt \
-	&& rm /tmp/chromedriver.zip \
-	&& ln -s /opt/chromedriver-linux64/chromedriver /usr/bin/chromedriver
+# Create directory for Chrome installation
+RUN mkdir -p /opt/google/chrome
+
+# Download and install Chrome
+RUN wget -q "https://storage.googleapis.com/chrome-for-testing-public/$CHROME_VERSION/linux64/chrome-linux64.zip" \
+    && unzip chrome-linux64.zip -d /opt/google/chrome \
+    && rm chrome-linux64.zip \
+    && ln -s /opt/google/chrome/chrome/chrome /usr/bin/google-chrome
+    && google-chrome --version
+
+
+# Download and install ChromeDriver
+RUN wget -q "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip" \
+    && unzip chromedriver_linux64.zip \
+    && mv chromedriver /usr/local/bin/chromedriver \
+    && rm chromedriver_linux64.zip \
+    && chmod +x /usr/local/bin/chromedriver
+    && chromedriver --version
