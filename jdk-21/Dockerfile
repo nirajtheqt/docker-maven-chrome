@@ -11,7 +11,7 @@ RUN apt-get update -qqy \
 
 # Download and install Chrome (new link)
 RUN mkdir -p /opt/google/chrome \
-    wget -q -O /tmp/chrome-linux64.zip "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_DRIVER_VERSION}/linux64/chrome-linux64.zip" \
+    && wget -q -O /tmp/chrome-linux64.zip "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_DRIVER_VERSION}/linux64/chrome-linux64.zip" \
     && unzip /tmp/chrome-linux64.zip -d /opt/google/chrome/ \
     && rm /tmp/chrome-linux64.zip \
     && ln -s /opt/google/chrome/chrome /usr/bin/google-chrome
