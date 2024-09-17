@@ -13,8 +13,7 @@ RUN apt-get update -qqy \
 RUN wget -q -O /tmp/chrome-linux64.zip "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_DRIVER_VERSION}/linux64/chrome-linux64.zip" \
     && unzip /tmp/chrome-linux64.zip -d /opt/google/chrome/ \
     && rm /tmp/chrome-linux64.zip \
-    && ln -s /opt/google/chrome/chrome /usr/bin/google-chrome \
-    && google-chromme --version
+    && ln -s /opt/google/chrome/chrome /usr/bin/google-chrome
 
 # Download and install ChromeDriver
 RUN wget -q -O /tmp/chromedriver.zip "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_DRIVER_VERSION}/linux64/chromedriver-linux64.zip" \
